@@ -1,10 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="static/Logo.png">
+
+    <title>Home</title>
 </head>
 <body>
+<div class="container">
+    <div class="card">
+        <h3>Tasks</h3>
+        <div class="button-area">
+            <button>
+                <a href="/create-task">Add Task</a>
+            </button>
+        </div>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Description</th>
+                    <th>Option</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>
+                        <a href="{{ url_for('views.delete_task',id=task.id)}}">Delete</a>
+                        <a href="{{ url_for('views.update_task',id=task.id)}}">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        font-size: 1.5rem;
+    }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        padding: 10px;
+    }
+
+    .button-area {
+        padding-bottom: 10px;
+    }
+
+    .button-area button {
+        background-color: blue;
+        border: none;
+        border-radius: 5px;
+        padding: 8px;
+    }
+
+    .button-area a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .card {
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 20px;
+    }
+
+    table {
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+</style>
 </body>
 </html>

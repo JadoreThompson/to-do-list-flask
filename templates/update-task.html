@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="static/Logo.png">
+    <title>Update Task</title>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h3>Update Task</h3>
+        <form action="/update-task" method="post">
+            <div class="form-element">
+                <input type="text" id="name" name="name" placeholder="{{ task.name }}">
+            </div>
+            <div class="form-element">
+                <textarea id="description" name="description" placeholder="{{ task.description }}"></textarea>
+            </div>
+            <div class="form-element">
+                <select name="completed" id="completed">
+                    <option value="False">Not Completed</option>
+                    <option value="True">Completed</option>
+                </select>
+            </div>
+            <div class="form-element">
+                <button type="submit">Update Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .container {
+        height: 80vh;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        display: grid;
+    }
+</style>
+</body>
+</html>

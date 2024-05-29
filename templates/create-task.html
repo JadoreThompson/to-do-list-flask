@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="static/Logo.png">
+    <title>Create Task</title>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h3>Add Task</h3>
+        <form action="/create-task" method="post">
+            <div class="form-element">
+                <input type="text" id="name" name="name" placeholder="e.g. Make Pizza...">
+            </div>
+            <div class="form-element">
+                <input id="description" name="description" placeholder="e.g. Extra cheese..."></input>
+            </div>
+            <div class="form-element">
+                <select name="completed" id="completed">
+                    <option value="False">Not Completed</option>
+                    <option value="True">Completed</option>
+                </select>
+            </div>
+            <div class="form-element">
+                <button type="submit">Add Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .container {
+        height: 80vh;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        display: grid;
+    }
+
+    .card {
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 20px;
+    }
+
+    .form-element {
+        padding-bottom: 10px;
+    }
+
+    .form-element select, .form-element button {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .form-element button {
+        background-color: blue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 7px;
+    }
+</style>
+</body>
+</html>
