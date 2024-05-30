@@ -17,12 +17,12 @@
                 <input type="text" id="name" name="name" placeholder="e.g. Make Pizza...">
             </div>
             <div class="form-element">
-                <input id="description" name="description" placeholder="e.g. Extra cheese..."></input>
+                <textarea id="description" name="description" placeholder="e.g. Extra cheese..."></textarea>
             </div>
             <div class="form-element">
                 <select name="completed" id="completed">
-                    <option value="False">Not Completed</option>
-                    <option value="True">Completed</option>
+                    <option value="0">Not Completed</option>
+                    <option value="1">Completed</option>
                 </select>
             </div>
             <div class="form-element">
@@ -34,7 +34,6 @@
 <style>
     .container {
         height: 80vh;
-        padding: 10px;
         justify-content: center;
         align-items: center;
         display: grid;
@@ -48,6 +47,7 @@
 
     .form-element {
         padding-bottom: 10px;
+        height: 2rem;
     }
 
     .form-element select, .form-element button {

@@ -12,17 +12,18 @@
 <div class="container">
     <div class="card">
         <h3>Update Task</h3>
-        <form action="/update-task" method="post">
+        <span>Change what is necessary</span>
+        <form action="{{ url_for('views.update_task',id=task.id)}}" method="post">
             <div class="form-element">
-                <input type="text" id="name" name="name" placeholder="{{ task.name }}">
+                <input type="text" id="name" value="{{ task.title }}" name="name" placeholder="{{ task.title }}">
             </div>
             <div class="form-element">
-                <textarea id="description" name="description" placeholder="{{ task.description }}"></textarea>
+                <textarea id="description" name="description" placeholder="{{ task.description }}">{{ task.description }}</textarea>
             </div>
             <div class="form-element">
                 <select name="completed" id="completed">
-                    <option value="False">Not Completed</option>
-                    <option value="True">Completed</option>
+                    <option value="0">Not Completed</option>
+                    <option value="1">Completed</option>
                 </select>
             </div>
             <div class="form-element">
@@ -38,6 +39,29 @@
         justify-content: center;
         align-items: center;
         display: grid;
+    }
+
+    .card {
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 20px;
+    }
+
+    .form-element {
+        padding-bottom: 10px;
+    }
+
+    .form-element select, .form-element button {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .form-element button {
+        background-color: blue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 7px;
     }
 </style>
 </body>
