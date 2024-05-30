@@ -7,7 +7,6 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
     tasks = Task.query.filter_by(done=0).all()
-    print("Tasks", tasks)
 
     return render_template('home.html', tasks=tasks)
 
@@ -20,9 +19,6 @@ def create_task():
             description = request.form['description']
             completed = request.form['completed']
 
-            print("Title", title)
-            print("Description", description)
-            print("Completed", completed)
 
             task = Task(title=title, description=description, done=completed)
             return task
@@ -53,7 +49,7 @@ def update_task(id):
         if request.method == "POST":
             title = request.form.get('name')
             description = request.form.get('description')
-            done = bool(request.form.get('completed'))
+            done = request.form.get('completed')
 
             if title is not None:
                 task.title = title
