@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, Users, Tasks
+from datetime import datetime
+import mail
 
 
+views = Blueprint('views',  __name__)
 
-
-views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
@@ -40,6 +41,7 @@ def login():
 
         if user_account:
             if check_password_hash(hashed_password, password):
+                session['user_id'] = user_account.id
                 return redirect(url_for('dashboard'))
 
     return render_template('login.html')
@@ -49,6 +51,7 @@ def dashboard(user_id):
     tasks = Tasks.query.filter_by(user_id=user_id).all()
 
     return render_template('dashboard.html', tasks=tasks)
+
 
 
 @views.route('/create-task/<int:user_id>', method=['POST'])
@@ -93,3 +96,5 @@ def delete_task(task_id):
     db.session.commit()
 
     return redirect(url_for('dashboard'))
+
+
