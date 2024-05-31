@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <form action="{{ url_for('views.update_task',task_id=task.id) }}" method="post">
+            <div class="form-element">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" value="{{ task.name }}">
+            </div>
+            <div class="form-element">
+                <label for="desc">Description</label>
+                <input type="text" name="desc" id="desc" value="{{ task.desc }}">
+            </div>
+            <div class="form-element">
+                <label for="due_date">Due Date</label>
+                <input type="date" name="due_date" id="due_date" value="{{ task.due_date }}">
+            </div>
+            <div class="form-element">
+                <button type="submit">Update Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
