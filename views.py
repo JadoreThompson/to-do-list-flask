@@ -1,68 +1,95 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
-from models import db, Task
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from models import db, Users, Tasks
+
+
+
 
 views = Blueprint('views', __name__)
 
-
 @views.route('/')
 def home():
-    tasks = Task.query.filter_by(done=0).all()
+    return render_template('home.html')
 
-    return render_template('home.html', tasks=tasks)
-
-
-@views.route('/create-task', methods=['POST', 'GET'])
-def create_task():
+@views.route('/register', method=['GET', 'POST'])
+def register():
     if request.method == "POST":
-        def get_form_data():
-            title = request.form['name']
-            description = request.form['description']
-            completed = request.form['completed']
+        username = request.form['username']
+        email = request.form['email']
 
+        password = request.form['password']
+        password = generate_password_hash(password)
 
-            task = Task(title=title, description=description, done=completed)
-            return task
-
-        task = get_form_data()
-        db.session.add(task)
+        new_user = Users(username=username, email=email, password=password)
+        db.session.add(new_user)
         db.session.commit()
 
+        return redirect(url_for('login'))
 
-        return redirect(url_for('views.home'))
+    return render_template('register.html')
 
-    return render_template('create-task.html')
+@views.route('/login', method=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form['email']
+
+        password = request.form['password']
+        hashed_password = generate_password_hash(password)
+
+        user_account = Users.query.filter_by(email=email).first()
+
+        if user_account:
+            if check_password_hash(hashed_password, password):
+                return redirect(url_for('dashboard'))
+
+    return render_template('login.html')
+
+@views.route('/dashboard/<int:user_id>', method=['GET', 'POST'])
+def dashboard(user_id):
+    tasks = Tasks.query.filter_by(user_id=user_id).all()
+
+    return render_template('dashboard.html', tasks=tasks)
 
 
-@views.route('/delete-task/<int:id>')
-def delete_task(id):
-    task = Task.query.filter_by(id=id).first()
+@views.route('/create-task/<int:user_id>', method=['POST'])
+def create_task(user_id):
+
+    title = request.form['title']
+    desc = request.form['desc']
+    dueDate = request.form['dueDate']
+
+    new_task = Tasks(user_id=user_id, title=title, desc=desc, dueDate=dueDate)
+    db.session.add(new_task)
+    db.session.commit()
+
+    return redirect(url_for('dashboard'))
+
+@views.route('/update-task/<int:task_id>', method=['POST'])
+def update_task(task_id):
+
+        task = Tasks.query.filter_by(id=task_id).first()
+
+        if not task:
+            flash('Task does not exist', category='error')
+
+        task.title = request.form['title']
+        task.desc = request.form['desc']
+        task.dueDate = request.form['dueDate']
+
+        db.session.commit()
+
+        return redirect(url_for('dashboard'))
+
+
+@views.route('/delete-task/<int:task_id>', method=['POST'])
+def delete_task(task_id):
+
+    task = Tasks.query.filter_by(id=task_id).first()
+
+    if not task:
+        flash('Task does not exist', category='error')
+
     db.session.delete(task)
     db.session.commit()
 
-    return redirect(url_for('views.home'))
-
-
-@views.route('/update-task/<int:id>', methods=['POST', 'GET'])
-def update_task(id):
-    task = Task.query.get(id)
-    if task:
-        if request.method == "POST":
-            title = request.form.get('name')
-            description = request.form.get('description')
-            done = request.form.get('completed')
-
-            if title is not None:
-                task.title = title
-            if description is not None:
-                task.description = description
-            if done is not None:
-                task.done = done
-
-            task.verified = True
-            db.session.commit()
-
-            return redirect(url_for('views.home'))
-    else:
-        return "Task not found!", 404
-
-    return render_template('update-task.html', task=task)
+    return redirect(url_for('dashboard'))
