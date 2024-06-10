@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Login
+Create Task
 {% endblock %}
 
 {% block content %}
@@ -37,22 +37,31 @@
         background-color: #7BD3EA;
         color: white;
     }
+
+    input, text-area {
+        width: 100%;
+    }
 </style>
 
 <div class="container">
     <div class="card">
-        <h1>Login</h1>
+        <h1>Create Task</h1>
         <form action="/login" method="post">
             <div class="form-group">
                 <div class="form-element">
-                    <label for="email">Email</label>
+                    <label for="title">Title</label>
                     <br>
-                    <input type="email" id="email" name="email" required>
+                    <input type="text" id="title" name="title" required>
                 </div>
                 <div class="form-element">
-                    <label for="password">Password</label>
+                    <label for="description">Password</label>
                     <br>
-                    <input type="password" id="password" name="password" required>
+                    <textarea id="description" name="description" required>Description</textarea>
+                </div>
+                <div class="form-element">
+                    <label for="due_date">Due Date</label>
+                    <br>
+                    <input type="date" id="due_date" name="due_date" required>
                 </div>
                 <button type="submit">Login</button>
             </div>

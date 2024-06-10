@@ -1,52 +1,67 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
+{% extends "base.html" %}
 
-    <style>
-        .container{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
-        }
+{% block title %}
+    Register
+{% endblock %}
 
-        .card {
-            padding: 10px;
+{% block content %}
+<style>
+    .container {
+        display: flex;
+        text-align: center;
+        margin-top: 200px;
+        justify-content: center;
+        align-items: center;
+    }
 
-        }
-    </style>
+    form {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-</head>
-<body>
+    .form-group {
+        text-align: left;
+    }
+
+    .form-element {
+        padding-bottom: 5px;
+    }
+
+    button {
+        width: 100%;
+        max-width: 100%;
+        padding: 7px;
+        border: 1px solid #7BD3EA;
+        border-radius: 5px;
+        background-color: #7BD3EA;
+        color: white;
+    }
+</style>
+
 <div class="container">
     <div class="card">
+        <h1>Register</h1>
         <form action="/register" method="post">
-            <div class="form-element">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username">
-            </div>
-            <div class="form-element">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email">
-            </div>
-            <div class="form-element">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
-            </div>
-            <div class="form-element">
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" name="confirm_password" id="confirm_password">
-            </div>
-            <div class="form-element">
+            <div class="form-group">
+                <div class="form-element">
+                    <label for="username">Username</label>
+                    <br>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-element">
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-element">
+                    <label for="password">Password</label>
+                    <br>
+                    <input type="password" id="password" name="password" required>
+                </div>
                 <button type="submit">Register</button>
             </div>
         </form>
     </div>
 </div>
-</body>
-</html>
+{% endblock %}

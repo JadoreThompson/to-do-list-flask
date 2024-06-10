@@ -1,17 +1,23 @@
-from flask_sqlalchemy import  SQLAlchemy
+import psycopg2
 
-db = SQLAlchemy()
+import os
+from dotenv import load_dotenv
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    password = db.Column(db.String(100), nullable=False)
-    tasks = db.relationship('Task', backref='user', lazy=True)
+load_dotenv('.env')
 
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    desc = db.Column(db.String(200), nullable=False)
-    due_date = db.Column(db.Date, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+conn_params = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASS'),
+    'dbname': os.getenv('DB_NAME'),
+    'port': os.getenv('DB_PORT')
+}
+
+with psycopg2.connect(**conn_params) as conn:
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM users")
+        rows = cur.fetchall()
+        print(rows)
+        cur.execute("SELECT * FROM tasks")
+        rows = cur.fetchall()
+        print(rows)
