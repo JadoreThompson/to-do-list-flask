@@ -24,35 +24,35 @@ Dashboard
     }
 </style>
 
+
 <div class="container">
     <h1>Welcome to the dashboard </h1>
     <div class="card">
-        <table>
-            <thead>
-            <tr>
-                <th>Task</th>
-                <th>Description</th>
-                <th>Due Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><a href="#">Task</a></td>
-                <td><a href="#">Task Desc</a></td>
-                <td><a href="#">Due Date</a></td>
-            </tr>
-            <tr>
-                <td><a href="#">Task</a></td>
-                <td><a href="#">Task Desc</a></td>
-                <td><a href="#">Due Date</a></td>
-            </tr>
-            <tr>
-                <td><a href="#">Task</a></td>
-                <td><a href="#">Task Desc</a></td>
-                <td><a href="#">Due Date</a></td>
-            </tr>
-            </tbody>
-        </table>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if all_tasks %}
+                {% for task in all_tasks %}
+                <tr>
+                    <td><a href="{{ url_for('views.create_task', task_id=task['id']) }}">{{ task.title }}</a></td>
+                    <td><a href="{{ url_for('views.create_task', task_id=task['id']) }}">{{ task.description }}</a></td>
+                    <td><a href="{{ url_for('views.create_task', task_id=task['id']) }}">{{ task.due_date }}</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>No tasks found</p>
+        {% endif %}
+
     </div>
 </div>
 {% endblock %}

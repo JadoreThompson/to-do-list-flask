@@ -3,6 +3,7 @@ from views import views
 import uvicorn
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "mysecret"
 app.register_blueprint(views)
 
 
