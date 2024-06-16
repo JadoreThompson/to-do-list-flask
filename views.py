@@ -71,11 +71,42 @@ def dashboard():
     return render_template('dashboard.html', all_tasks=all_tasks)
 
 
-@views.route('/tasks/create/<int:task_id>')
-def create_task(task_id):
-    return render_template('create_task.html')
+@views.route('/tasks/create', methods=['POST'])
+def create_task():
+    user_id = session['user_id']
+
+    endpoint = f"tasks/create/{user_id}"
+    url = base_url + endpoint
+
+    new_task = {
+        'title': request.form.get('title'),
+        'description': request.form.get('description'),
+        'due_date': request.form.get('due_date')
+    }
+    rsp = requests.post(url, json=new_task)
+    print("Response is", rsp.json())
+    if rsp.status_code == 200:
+        return redirect(url_for('views.dashboard'))
+    else:
+        print("DOGGGO", rsp.json())
+
+    return redirect(url_for('views.dashboard'))
 
 
 @views.route('/tasks/update/<int:task_id>')
 def update_task(task_id):
+    print("Task ID:", task_id)
+    endpoint = f"tasks/{task_id}"
+    url = base_url + endpoint
+    rsp = requests.get(url)
+    print(rsp.json())
+
     return render_template('update_task.html')
+
+@views.route('/tasks/delete/<int:task_id>')
+def delete_task(task_id):
+    endpoint = f"tasks/delete/{task_id}"
+    url = base_url + endpoint
+    rsp = requests.delete(url)
+    if rsp.status_code == 200:
+        return '2'

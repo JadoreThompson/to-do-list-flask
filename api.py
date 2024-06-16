@@ -115,14 +115,10 @@ def get_all_tasks(user_id: int, task_title: Optional[str] = None, task_due_date:
 def get_task(task_id: int):
     with psycopg2.connect(**models.conn_params) as conn:
         with conn.cursor() as cur:
-            db_query = """
-                SELECT * FROM task
-                WHERE id = %s;
-            """
-            cur.execute(db_query, (task_id,))
+            cur.execute("SELECT * FROM tasks WHERE id=%s", (task_id, ))
             row = cur.fetchone()
 
-            if row is None:
+            if not row:
                 raise HTTPException(status_code=404, detail="Task not found")
 
                 # Assuming the columns are in the order: id, title, description, due_date
@@ -216,7 +212,7 @@ def update_task(task_id: int, user_id: int, task: UpdateTask):
                     WHERE id = %s;
                 """)
                 cur.execute(update_script, (
-                task_to_update['title'], task_to_update['description'], task_to_update['due_date'], task_id))
+                    task_to_update['title'], task_to_update['description'], task_to_update['due_date'], task_id))
 
     return task_to_update
 
